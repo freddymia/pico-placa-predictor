@@ -26,7 +26,10 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+    
+    // 
+    compile 'org.apache.commons:commons-lang3:3.0'
 }
 
 // Define the main class for the application
-mainClassName = 'pico.placa.predictor.App'
+mainClassName = 'pico.placa.predictor.Main'
