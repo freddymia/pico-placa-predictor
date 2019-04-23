@@ -6,14 +6,14 @@ import java.time.LocalTime;
 
 import org.junit.Test;
 
-public class PicoPlacaTest {
+public class ValidationTest {
 
 	// General Input Test
 	@Test
 	public void testPredictorInputEmptyParameters() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.validateInput("", "", "");
+			Validation.validateInput("", "", "");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -24,7 +24,7 @@ public class PicoPlacaTest {
 	public void testPredictorInputNullParameters() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.validateInput(null, null, null);
+			Validation.validateInput(null, null, null);
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -36,7 +36,7 @@ public class PicoPlacaTest {
 	public void testValidateNumberPlateSize() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidPlateNumber("789798789789798798");
+			Validation.isValidPlateNumber("789798789789798798");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -47,7 +47,7 @@ public class PicoPlacaTest {
 	public void testValidateNumberPlateFormat() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidPlateNumber("AX8");
+			Validation.isValidPlateNumber("AX8");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -56,12 +56,12 @@ public class PicoPlacaTest {
 
 	@Test
 	public void testOneGetLastPlateNumber() {
-		assertEquals(5, PicoPlaca.isValidPlateNumber("005"));
+		assertEquals(5, Validation.isValidPlateNumber("005"));
 	}
 
 	@Test
 	public void testTwoGetLastPlateNumber() {
-		assertEquals(0, PicoPlaca.isValidPlateNumber("990"));
+		assertEquals(0, Validation.isValidPlateNumber("990"));
 	}
 
 	// Date Test
@@ -69,7 +69,7 @@ public class PicoPlacaTest {
 	public void testValidateDateSize() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidDate("78451254778979878879");
+			Validation.isValidDate("78451254778979878879");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -80,7 +80,7 @@ public class PicoPlacaTest {
 	public void testValidateDateFormat() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidDate("E#F&YH)K");
+			Validation.isValidDate("E#F&YH)K");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -91,7 +91,7 @@ public class PicoPlacaTest {
 	public void testValidateDateFormatYear() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidDate("01014401");
+			Validation.isValidDate("01014401");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -102,7 +102,7 @@ public class PicoPlacaTest {
 	public void testValidateDateFormatMonth() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidDate("20199923");
+			Validation.isValidDate("20199923");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -113,7 +113,7 @@ public class PicoPlacaTest {
 	public void testValidateDateFormatDay() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidDate("20440232");
+			Validation.isValidDate("20440232");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -124,7 +124,7 @@ public class PicoPlacaTest {
 	public void testValidateDateInputOne() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidDate("20440231");
+			Validation.isValidDate("20440231");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -135,7 +135,7 @@ public class PicoPlacaTest {
 	public void testValidateDateInputTwo() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidDate("20190401");
+			Validation.isValidDate("20190401");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -144,12 +144,12 @@ public class PicoPlacaTest {
 
 	@Test
 	public void testGetDayOfTheWeekBirthday() {
-		assertEquals(2, PicoPlaca.isValidDate("20190604"));// Tuesday (day of the week 2)
+		assertEquals(2, Validation.isValidDate("20190604"));// Tuesday (day of the week 2)
 	}
 
 	@Test
 	public void testGetDayOfTheWeekMonday() {
-		assertEquals(1, PicoPlaca.isValidDate("20191230"));// Monday (day of the week 1)
+		assertEquals(1, Validation.isValidDate("20191230"));// Monday (day of the week 1)
 	}
 
 	// Time Test
@@ -157,7 +157,7 @@ public class PicoPlacaTest {
 	public void testValidateTimeSize() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidTime("789789798789798789798");
+			Validation.isValidTime("789789798789798789798");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -168,7 +168,7 @@ public class PicoPlacaTest {
 	public void testValidateTimeFormat() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidTime("99EX");
+			Validation.isValidTime("99EX");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -179,7 +179,7 @@ public class PicoPlacaTest {
 	public void testValidateTimeFormatHour() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidTime("6500");
+			Validation.isValidTime("6500");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -190,7 +190,7 @@ public class PicoPlacaTest {
 	public void testValidateDateFormatMinute() {
 		RuntimeException exception = null;
 		try {
-			PicoPlaca.isValidTime("0089");
+			Validation.isValidTime("0089");
 		} catch (RuntimeException e) {
 			exception = e;
 		}
@@ -199,6 +199,6 @@ public class PicoPlacaTest {
 
 	@Test
 	public void testValidateDateInput() {
-		assertEquals(LocalTime.of(00, 00), PicoPlaca.isValidTime("0000"));
+		assertEquals(LocalTime.of(00, 00), Validation.isValidTime("0000"));
 	}
 }
