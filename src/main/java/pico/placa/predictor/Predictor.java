@@ -3,20 +3,50 @@ package pico.placa.predictor;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Validation {
+/**
+ * @author freddy
+ *
+ */
+public class Predictor {
 
-	public static void validateInput(String plateNumber, String date, String time) {
+	private String plateNumber;
+	private String date;
+	private String time;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param plateNumber plate number
+	 * @param date        year month day
+	 * @param time        hour minute
+	 */
+	public Predictor(String plateNumber, String date, String time) {
+		super();
+		this.plateNumber = plateNumber;
+		this.date = date;
+		this.time = time;
+	}
+
+	/**
+	 * Validate input
+	 */
+	public void validateInput() {
 		if (StringUtils.isBlank(plateNumber) || StringUtils.isBlank(date) || StringUtils.isBlank(time)) {
 			throw new RuntimeException("The input parameters aren't correct!");
 		}
 	}
 
-	public static int isValidPlateNumber(String plateNumber) {
+	/**
+	 * @return last plate number
+	 */
+	public int isValidPlateNumber() {
 
-		if (plateNumber.length() != 3) {
+		if (plateNumber.length() != 4) {
 			throw new RuntimeException("The plate number size entered isn't correct");
 		}
 
@@ -24,10 +54,13 @@ public class Validation {
 			throw new RuntimeException("The plate number format entered isn't correct");
 		}
 
-		return Integer.parseInt(plateNumber.substring(2, 3));
+		return Integer.parseInt(plateNumber.substring(3, 4));
 	}
 
-	public static int isValidDate(String date) {
+	/**
+	 * @return day of the week
+	 */
+	public String isValidDate() {
 
 		LocalDate localDate = null;
 
@@ -66,11 +99,14 @@ public class Validation {
 			throw new RuntimeException("The date entered must be greater than the current one");
 		}
 
-		return localDate.getDayOfWeek().getValue();
+		return localDate.getDayOfWeek().name();
 
 	}
 
-	public static LocalTime isValidTime(String time) {
+	/**
+	 * @return time
+	 */
+	public LocalTime isValidTime() {
 
 		LocalTime localTime = null;
 
@@ -100,6 +136,58 @@ public class Validation {
 		}
 
 		return localTime;
+	}
+
+	/**
+	 * @return process if is possible be on the road
+	 */
+	public Boolean canBeOnTheRoad() {
+
+		this.validateInput();
+
+		int lastNumberPlate = this.isValidPlateNumber();
+
+		String dayOfTheWeek = this.isValidDate();
+		LocalTime localTime = this.isValidTime();
+
+		// Weekends
+		List<String> restrictionDayList = new ArrayList<>();
+		for (RestrictionDay restrictionDay : RestrictionDay.values()) {
+			restrictionDayList.add(restrictionDay.name());
+		}
+
+		if (!restrictionDayList.contains(dayOfTheWeek)) {
+			return Boolean.TRUE;
+		}
+
+		// Restrictions after hours
+		if ((localTime.isAfter(Constants.INITIAL_MORNING) && localTime.isBefore(Constants.FINAL_MORNING))
+				|| localTime.isAfter(Constants.INITIAL_EVENING) && localTime.isBefore(Constants.FINAL_EVENING)) {
+
+			// Day restriction
+			if (dayOfTheWeek.equals(RestrictionDay.MONDAY.name()) && (lastNumberPlate == 1 || lastNumberPlate == 2)) {
+				return Boolean.FALSE;
+			}
+
+			if (dayOfTheWeek.equals(RestrictionDay.TUESDAY.name()) && (lastNumberPlate == 3 || lastNumberPlate == 4)) {
+				return Boolean.FALSE;
+			}
+
+			if (dayOfTheWeek.equals(RestrictionDay.WEDNESDAY.name())
+					&& (lastNumberPlate == 5 || lastNumberPlate == 6)) {
+				return Boolean.FALSE;
+			}
+
+			if (dayOfTheWeek.equals(RestrictionDay.THURSDAY.name()) && (lastNumberPlate == 7 || lastNumberPlate == 8)) {
+				return Boolean.FALSE;
+			}
+
+			if (dayOfTheWeek.equals(RestrictionDay.FRIDAY.name()) && (lastNumberPlate == 9 || lastNumberPlate == 0)) {
+				return Boolean.FALSE;
+			}
+		}
+
+		return Boolean.TRUE;
 	}
 
 }

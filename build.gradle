@@ -31,5 +31,9 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.0'
 }
 
+run {
+    standardInput = System.in
+}
+
 // Define the main class for the application
 mainClassName = 'pico.placa.predictor.Main'
